@@ -53,7 +53,9 @@ namespace PaisleyPark.ViewModels
         public DelegateCommand StopServerCommand       { get; private set; }
 
         // Waymark offsets.
-        private const int WaymarkAddr = 0x1AE5960;
+        // private const int WaymarkAddr = 0x1AE5960;
+        // cn support
+        private const int WaymarkAddr = 0x19DFC90;
 
 		private static readonly NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
@@ -290,10 +292,16 @@ namespace PaisleyPark.ViewModels
 				// TODO: AoB!
 				// 48 89 6C 24 10 48 89 74 24 18 57 48 83 EC 30 8B EA 49 8B F0 48 8B F9 83 FA 06
 				var waymarkFunc = (ffxiv_dx11 + 0x752140).ToUint64();
-				// Waymark class instance. (?)
-				var waymarkClassPointer = (ffxiv_dx11 + 0x1AE57C0).ToUint64();
+                // cn support
+                waymarkFunc = (ffxiv_dx11 + 0x73BAC0).ToUint64();
+                // Waymark class instance. (?)
+                var waymarkClassPointer = (ffxiv_dx11 + 0x1AE57C0).ToUint64();
+                // cn support
+                waymarkClassPointer = (ffxiv_dx11 + 0x19EE658).ToUint64();
+                
 
-				logger.Debug("FFXIV Base Address: {0}", ffxiv_dx11.ToUint64().AsHex());
+
+                logger.Debug("FFXIV Base Address: {0}", ffxiv_dx11.ToUint64().AsHex());
 				logger.Debug("Waymark Function: {0}", waymarkFunc.AsHex());
 				logger.Debug("Waymark Pointer: {0}", waymarkClassPointer.AsHex());
 
