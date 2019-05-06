@@ -120,7 +120,7 @@ namespace PaisleyPark.ViewModels
             // Fetching the update.
             AutoUpdater.RunUpdateAsAdmin = true;
             AutoUpdater.DownloadPath = Environment.CurrentDirectory;
-            AutoUpdater.Start("https://raw.githubusercontent.com/LeonBlade/PaisleyPark/master/Update.xml");
+            AutoUpdater.Start("https://raw.githubusercontent.com/Bluefissure/PaisleyPark/cn/Update.xml");
 
 
             AutoUpdater.CheckForUpdateEvent += e =>
