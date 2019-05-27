@@ -80,11 +80,11 @@ namespace PaisleyPark.ViewModels
 					p.D = GameMemory.D;
 					p.One = GameMemory.One;
 					p.Two = GameMemory.Two;
-					p.MapID = GameMemory.MapID;
-				}
+                    p.MapID = GameMemory.MapID;
+                }
 
-				// Add the preset.
-				Presets.Add(p);
+                // Add the preset.
+                Presets.Add(p);
 			}
 		}
 

@@ -136,7 +136,7 @@ namespace PaisleyPark.ViewModels
             logger.Info("Fetching update.");
 
             // Create request for Github REST API for the latest release of Paisley Park.
-            if (WebRequest.Create("https://api.github.com/repos/LeonBlade/PaisleyPark/releases/latest") is HttpWebRequest request)
+            if (WebRequest.Create("https://api.github.com/repos/Bluefissure/PaisleyPark/releases/latest") is HttpWebRequest request)
             {
                 request.Method = "GET";
                 request.UserAgent = "PaisleyPark";
@@ -223,7 +223,7 @@ namespace PaisleyPark.ViewModels
                 );
                 if (answer == MessageBoxResult.Yes)
                 {
-                    Process.Start("https://github.com/LeonBlade/PaisleyPark/releases/latest");
+                    Process.Start("https://github.com/Bluefissure/PaisleyPark/releases/latest");
                 }
 
                 logger.Error(ex, "Update failed when requesting update from Github.");
@@ -290,7 +290,8 @@ namespace PaisleyPark.ViewModels
             // Load in the definitions file.
             try
             {
-                GameDefinitions = Definitions.Get(GameProcess, gameVersion.ToString(), Game.GameType.Dx11);
+                // GameDefinitions = Definitions.Get(GameProcess, gameVersion.ToString(), Game.GameType.Dx11);
+                GameDefinitions = new Definitions(GameProcess);
             }
             catch (Exception ex)
             {
@@ -480,7 +481,8 @@ namespace PaisleyPark.ViewModels
                     GameMemory.Two = ReadWaymark(wayTwo, WaymarkID.Two);
 
                     // Read the map ID.
-                    GameMemory.MapID = GameProcess.ReadUInt32(new Pointer(GameProcess, 0x1AE6A88, 0x5C4));
+                    // GameMemory.MapID = GameProcess.ReadUInt32(new Pointer(GameProcess, 0x1AE6A88, 0x5C4));
+                    GameMemory.MapID = 0;
 
                     // Read in player position.
                     GameMemory.PlayerX = GameProcess.ReadFloat(playerPosition);
