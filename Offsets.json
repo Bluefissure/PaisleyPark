@@ -1,5 +1,6 @@
 {
-  "WaymarkClassPtr": "0x1AE57C0",
-  "WaymarkFunc": "0x7521F0",
-  "Waymarks": "0x1AE6960"
+  "Version": "CN 4.55",
+  "WaymarkClassPtr": 28187440, // 0x1AE1B30
+  "WaymarkFunc": 7675376, // 0x751DF0
+  "Waymarks": 28187856 // 0x1AE1CD0
 }
