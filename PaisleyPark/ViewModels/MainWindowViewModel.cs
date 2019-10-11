@@ -40,7 +40,7 @@ namespace PaisleyPark.ViewModels
 		private readonly Version CurrentVersion;
 		private string GameVersion;
 		public string DiscordUri { get; private set; } = "https://discord.gg/hq3DnBa";
-		private static readonly Uri OffsetUrl = new Uri("https://raw.githubusercontent.com/LeonBlade/PaisleyPark/master/Offsets/");
+		private static readonly Uri OffsetUrl = new Uri("https://raw.githubusercontent.com/Bluefissure/PaisleyPark/cn/Offsets/");
 
 #pragma warning disable IDE1006 // Naming Styles
 
@@ -73,7 +73,7 @@ namespace PaisleyPark.ViewModels
 			// Get the version from the assembly.
 			CurrentVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
 			// Set window title.
-			WindowTitle = string.Format("Paisley Park {0}", CurrentVersion.VersionString());
+			WindowTitle = string.Format("Paisley Park CN {0}", CurrentVersion.VersionString());
 
 			// Fetch an update.
 			FetchUpdate();
@@ -192,7 +192,7 @@ namespace PaisleyPark.ViewModels
 			logger.Debug($"Game version is {GameVersion}");
 
 			// Check the game version against what we have saved in settings.
-			if (UserSettings.LatestGameVersion != GameVersion)
+			if (UserSettings.LatestGameVersion != null && UserSettings.LatestGameVersion != GameVersion)
 			{
 				logger.Info($"Latest version {GameVersion} does not match the latest game version in settings {UserSettings.LatestGameVersion}");
 
@@ -283,7 +283,7 @@ namespace PaisleyPark.ViewModels
 				// Launch the web browser to the latest release.
 				if (result == MessageBoxResult.Yes)
 				{
-					Process.Start("https://github.com/LeonBlade/PaisleyPark/releases/latest");
+					Process.Start("https://github.com/Bluefissure/PaisleyPark/releases/latest");
 				}
 			}
 		}
@@ -356,12 +356,12 @@ namespace PaisleyPark.ViewModels
 			// Load in the definitions file.
 			try
 			{
-				GameDefinitions = Definitions.Get(GameProcess, gameVersion.ToString(), Game.GameType.Dx11);
+				// GameDefinitions = Definitions.Get(GameProcess, gameVersion.ToString(), Game.GameType.Dx11);
 			}
 			catch (Exception)
 			{
 				// Fallback to last known version.
-				GameDefinitions = Definitions.Get(GameProcess, "2019.08.21.0000.0000", Game.GameType.Dx11);
+				// GameDefinitions = Definitions.Get(GameProcess, "2019.09.27.0000.0000", Game.GameType.Dx11);
 			}
 
 			// Get offsets.
@@ -522,12 +522,13 @@ namespace PaisleyPark.ViewModels
 			// Worker loop runs indefinitely.
 			while (true)
 			{
-				// Pointers for player position, start of the actor table (first actor in the table is you)
-				// NOTE: needs to be addressed in the loop because it changes dynamically.
-				var playerPosition = new Pointer(GameProcess, GameDefinitions.ActorTable + 0x8, 0xF0, 0x50);
+                // Pointers for player position, start of the actor table (first actor in the table is you)
+                // NOTE: needs to be addressed in the loop because it changes dynamically.
+                // var playerPosition = new Pointer(GameProcess, GameDefinitions.ActorTable + 0x8, 0xF0, 0x50);
+                var playerPosition = new Pointer(GameProcess, 0x1B25E40 + 0x8, 0xF0, 0x50);
 
-				// Supporting cancellation.
-				if (Worker.CancellationPending)
+                // Supporting cancellation.
+                if (Worker.CancellationPending)
 					e.Cancel = true;
 
 				// ReadWaymark local function to read multiple waymarks with.
@@ -550,11 +551,12 @@ namespace PaisleyPark.ViewModels
 					GameMemory.One = ReadWaymark(wayOne, WaymarkID.One);
 					GameMemory.Two = ReadWaymark(wayTwo, WaymarkID.Two);
 
-					// Read the map ID.
-					GameMemory.MapID = GameProcess.ReadUInt32(new Pointer(GameProcess, 0x1AE6A88, 0x5C4));
+                    // Read the map ID.
+                    // GameMemory.MapID = GameProcess.ReadUInt32(new Pointer(GameProcess, 0x1AE6A88, 0x5C4));
+                    GameMemory.MapID = 0;
 
-					// Read in player position.
-					GameMemory.PlayerX = GameProcess.ReadFloat(playerPosition);
+                    // Read in player position.
+                    GameMemory.PlayerX = GameProcess.ReadFloat(playerPosition);
 					GameMemory.PlayerY = GameProcess.ReadFloat(playerPosition + 0x4);
 					GameMemory.PlayerZ = GameProcess.ReadFloat(playerPosition + 0x8);
 
