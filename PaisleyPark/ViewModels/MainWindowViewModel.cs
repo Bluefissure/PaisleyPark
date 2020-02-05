@@ -29,7 +29,7 @@ namespace PaisleyPark.ViewModels
 		public static Memory GameMemory { get; set; } = new Memory();
 		public Settings UserSettings { get; set; }
 		public Preset CurrentPreset { get; set; }
-		public string WindowTitle { get; set; } = "Paisley Park";
+		public string WindowTitle { get; set; } = "Paisley Park CN";
 		public bool IsServerStarted { get; set; } = false;
 		public bool IsServerStopped { get => !IsServerStarted; }
 		private static readonly NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
@@ -39,7 +39,7 @@ namespace PaisleyPark.ViewModels
 		private readonly Version CurrentVersion;
 		private string GameVersion;
 		public string DiscordUri { get; private set; } = "https://discord.gg/hq3DnBa";
-		private static readonly Uri OffsetUrl = new Uri("https://raw.githubusercontent.com/LeonBlade/PaisleyPark/master/Offsets/");
+		private static readonly Uri OffsetUrl = new Uri("https://raw.githubusercontent.com/Bluefissure/PaisleyPark/cn/Offsets/");
 
 #pragma warning disable IDE1006 // Naming Styles
 
@@ -86,12 +86,12 @@ namespace PaisleyPark.ViewModels
 				logger.Debug($"Current Version: {CurrentVersion}");
 
 				// Set window title.
-				WindowTitle = string.Format("Paisley Park {0}", CurrentVersion.VersionString());
+				WindowTitle = string.Format("Paisley Park CN {0}", CurrentVersion.VersionString());
 			}
 			catch (Exception ex)
 			{
 				logger.Error(ex, "Couldn't get the application version.");
-				MessageBox.Show("Couldn't get Paisley Park's version to set the title.", "Paisley Park", MessageBoxButton.OK, MessageBoxImage.Error);
+				MessageBox.Show("无法获得Paisley Park的版本来设置标题。", "Paisley Park", MessageBoxButton.OK, MessageBoxImage.Error);
 				WindowTitle = "Paisley Park";
 			}
 
@@ -108,7 +108,7 @@ namespace PaisleyPark.ViewModels
 			catch (Exception ex)
 			{
 				logger.Error(ex, "Error trying to load settings file.");
-				MessageBox.Show("Could not load your settings file!", "Paisley Park", MessageBoxButton.OK, MessageBoxImage.Error);
+				MessageBox.Show("无法加载您的设置文件！", "Paisley Park", MessageBoxButton.OK, MessageBoxImage.Error);
 				Application.Current.Shutdown();
 			}
 
@@ -153,7 +153,7 @@ namespace PaisleyPark.ViewModels
 			catch (Exception ex)
 			{
 				logger.Error(ex, "Couldn't subscribe to LoadPresetEvent.");
-				MessageBox.Show("Couldn't subscribe to Load Preset event.", "Paisely Park", MessageBoxButton.OK, MessageBoxImage.Error);
+				MessageBox.Show("无法订阅“加载预设”事件。", "Paisely Park", MessageBoxButton.OK, MessageBoxImage.Error);
 				Application.Current.Shutdown();
 			}
 
@@ -179,7 +179,7 @@ namespace PaisleyPark.ViewModels
 					}
 					catch (Exception ex)
 					{
-						MessageBox.Show("Could not save the preset.", "Paisley Park", MessageBoxButton.OK, MessageBoxImage.Error);
+						MessageBox.Show("无法保存预设。", "Paisley Park", MessageBoxButton.OK, MessageBoxImage.Error);
 						logger.Error(ex, "Could not save preset");
 					}
 
@@ -198,7 +198,7 @@ namespace PaisleyPark.ViewModels
 			catch (Exception ex)
 			{
 				logger.Error(ex, "Couldn't subscribe to SavePresetEvent.");
-				MessageBox.Show("Couldn't subscribe to Save Preset event.", "Paisley Park", MessageBoxButton.OK, MessageBoxImage.Error);
+				MessageBox.Show("无法订阅“保存预设”事件。", "Paisley Park", MessageBoxButton.OK, MessageBoxImage.Error);
 				Application.Current.Shutdown();
 			}
 
@@ -216,7 +216,7 @@ namespace PaisleyPark.ViewModels
 			catch (Exception ex)
 			{
 				logger.Error(ex, "Couldn't create a command.");
-				MessageBox.Show("Couldn't create commands.", "Paisley Park", MessageBoxButton.OK, MessageBoxImage.Error);
+				MessageBox.Show("无法创建命令。", "Paisley Park", MessageBoxButton.OK, MessageBoxImage.Error);
 				Application.Current.Shutdown();
 			}
 
@@ -270,7 +270,7 @@ namespace PaisleyPark.ViewModels
 			{
 				logger.Info($"Latest version {GameVersion} does not match the latest game version in settings {UserSettings.LatestGameVersion}");
 
-				var result = MessageBox.Show("There are new offsets available from the web. Would you like to use these offsets?", "Paisley Park", MessageBoxButton.YesNo, MessageBoxImage.Question);
+				var result = MessageBox.Show("网站上有更新版本的内存偏移量，是否自动更新？", "Paisley Park", MessageBoxButton.YesNo, MessageBoxImage.Question);
 				if (result == MessageBoxResult.Yes)
 				{
 					logger.Info("User is downloading latest offsets.");
@@ -291,7 +291,7 @@ namespace PaisleyPark.ViewModels
 					}
 					catch (Exception ex)
 					{
-						MessageBox.Show("Couldn't fetch or save offsets from the server. Your offsets could be out of date, and if so, may cause the game to crash.", "Paisley Park", MessageBoxButton.OK, MessageBoxImage.Error);
+						MessageBox.Show("无法从服务器获取或保存偏移量。 您的偏移量可能已过时，如果使用，则可能导致游戏崩溃。", "Paisley Park", MessageBoxButton.OK, MessageBoxImage.Error);
 						logger.Error(ex, "Couldn't fetch or save offsets from the server!");
 					}
 				}
@@ -307,7 +307,7 @@ namespace PaisleyPark.ViewModels
 			}
 			catch (Exception)
 			{
-				MessageBox.Show("Couldn't load the offsets file!  Please select the offsets file manually.", "Paisley Park", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+				MessageBox.Show("无法加载偏移文件！ 请手动选择偏移文件。", "Paisley Park", MessageBoxButton.OK, MessageBoxImage.Exclamation);
 				var dlg = new Microsoft.Win32.OpenFileDialog
 				{
 					InitialDirectory = Environment.CurrentDirectory,
@@ -329,7 +329,7 @@ namespace PaisleyPark.ViewModels
 					}
 					catch (Exception)
 					{
-						MessageBox.Show("Could not open this offset file. Shutting down.", "Paisley Park", MessageBoxButton.OK, MessageBoxImage.Error);
+						MessageBox.Show("无法打开此偏移文件。 退出。", "Paisley Park", MessageBoxButton.OK, MessageBoxImage.Error);
 						Application.Current.Shutdown();
 					}
 				}
@@ -349,7 +349,7 @@ namespace PaisleyPark.ViewModels
 			{
 				logger.Error(ex, "Updater didn't work.");
 				var result = MessageBox.Show(
-					"Could not run the updater. Would you like to visit the releases page to check for a new update manually?",
+					"无法运行更新程序。 您要访问发布页面以手动检查新更新吗？",
 					"Paisley Park",
 					MessageBoxButton.YesNo,
 					MessageBoxImage.Error
@@ -357,7 +357,7 @@ namespace PaisleyPark.ViewModels
 				// Launch the web browser to the latest release.
 				if (result == MessageBoxResult.Yes)
 				{
-					Process.Start("https://github.com/LeonBlade/PaisleyPark/releases/latest");
+					Process.Start("https://github.com/Bluefissure/PaisleyPark/releases/latest");
 				}
 			}
 		}
@@ -388,7 +388,7 @@ namespace PaisleyPark.ViewModels
 				catch (Exception ex)
 				{
 					logger.Error(ex, "Couldn't save settings");
-					MessageBox.Show("Couldn't save settings!", "Paisley Park", MessageBoxButton.OK, MessageBoxImage.Error);
+					MessageBox.Show("无法保存设置！", "Paisley Park", MessageBoxButton.OK, MessageBoxImage.Error);
 				}
 			}
 		}
@@ -415,7 +415,7 @@ namespace PaisleyPark.ViewModels
 			if (GameProcess == null)
 			{
 				logger.Error("Couldn't get Nhaama process");
-				MessageBox.Show("Coult not get the Nhaama Process for FFXIV.", "Paisley Park", MessageBoxButton.OK, MessageBoxImage.Error);
+				MessageBox.Show("无法获得FFXIV的Nhaama进程。", "Paisley Park", MessageBoxButton.OK, MessageBoxImage.Error);
 				return false;
 			}
 
@@ -426,7 +426,7 @@ namespace PaisleyPark.ViewModels
 			GameProcess.BaseProcess.Exited += (_, e) =>
 			{
 				MessageBox.Show(
-					"Looks like FINAL FANTASY XIV crashed or shut down.",
+					"看起来最终幻想XIV崩溃或关闭。",
 					"Paisley Park",
 					MessageBoxButton.OK,
 					MessageBoxImage.Exclamation
@@ -451,7 +451,7 @@ namespace PaisleyPark.ViewModels
 			catch (Exception ex)
 			{
 				logger.Error(ex, $"There is an error getting your FFXIV game version. {ffxiv_folder}");
-				MessageBox.Show("There was a problem getting your game version, cannot start!", "Paisley Park", MessageBoxButton.OK, MessageBoxImage.Error);
+				MessageBox.Show("获取您的游戏版本时出现问题，无法启动！", "Paisley Park", MessageBoxButton.OK, MessageBoxImage.Error);
 				Application.Current.Shutdown();
 			}
 
@@ -511,7 +511,7 @@ namespace PaisleyPark.ViewModels
 			if (GameProcess == null)
 			{
 				MessageBox.Show(
-					"FINAL FANTASY XIV is not running or something bad happened!",
+					"最终幻想XIV没有运行或发生了不好的事情！",
 					"Paisley Park",
 					MessageBoxButton.OK,
 					MessageBoxImage.Error
@@ -578,7 +578,7 @@ namespace PaisleyPark.ViewModels
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show("Something happened while injecting into FINAL FANTASY XIV!", "Paisley Park", MessageBoxButton.OK, MessageBoxImage.Error);
+				MessageBox.Show("注入最终幻想XIV时发生了什么", "Paisley Park", MessageBoxButton.OK, MessageBoxImage.Error);
 				logger.Error(
 					ex,
 					"Injection Failed! newmem: {0}, inject: {1}",
@@ -708,7 +708,7 @@ namespace PaisleyPark.ViewModels
 			if (_inject == 0 || _newmem == 0)
 			{
 				MessageBox.Show(
-					"Code is not injected for placing waymarks!",
+					"没有为放置坐标点注入代码！",
 					"Paisley Park",
 					MessageBoxButton.OK,
 					MessageBoxImage.Error
@@ -727,7 +727,7 @@ namespace PaisleyPark.ViewModels
 			{
 				// Ask the user if they want to still place based on the XYZ being all 0.
 				var result = MessageBox.Show(
-					"There is a problem loading your current position, this may cause crashing. Are you sure you want to do this?",
+					"加载您的当前位置有问题，这可能会导致崩溃。 你确定要这么做吗？",
 					"Paisley Park",
 					MessageBoxButton.YesNo,
 					MessageBoxImage.Warning
@@ -743,7 +743,7 @@ namespace PaisleyPark.ViewModels
 			{
 				if (WaymarkThread != null && WaymarkThread.IsAlive)
 				{
-					MessageBox.Show("Please wait for the previous Load to finish.", "Paisley Park", MessageBoxButton.OK, MessageBoxImage.Information);
+					MessageBox.Show("请等待之前的加载完成。", "Paisley Park", MessageBoxButton.OK, MessageBoxImage.Information);
 					return;
 				}
 
@@ -762,7 +762,7 @@ namespace PaisleyPark.ViewModels
 			catch (Exception ex)
 			{
 				MessageBox.Show(
-					"Something happened while attemping to load your preset!",
+					"尝试加载预设时发生了某些情况！",
 					"Paisley Park",
 					MessageBoxButton.OK,
 					MessageBoxImage.Error
@@ -797,7 +797,7 @@ namespace PaisleyPark.ViewModels
 			catch (Exception ex)
 			{
 				logger.Error(ex, "Could not start Nancy host.");
-				MessageBox.Show($"Could not start the HTTP server on port {UserSettings.Port}!", "Paisley Park", MessageBoxButton.OK, MessageBoxImage.Error);
+				MessageBox.Show($"无法在 {UserSettings.Port} 端口上启动HTTP服务器!", "Paisley Park", MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 		}
 
@@ -816,7 +816,7 @@ namespace PaisleyPark.ViewModels
 			catch (Exception ex)
 			{
 				logger.Error(ex, "Error stopping server.");
-				MessageBox.Show("There was an error stopping the server.", "Paisley Park", MessageBoxButton.OK, MessageBoxImage.Error);
+				MessageBox.Show("停止服务器时出错。", "Paisley Park", MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 		}
 
